@@ -29,8 +29,6 @@ Você não precisa instalar dependências no seu computador. Tudo de que você p
    - Abra o navegador e vá em: `http://localhost:7512`
    - *A interface estará zerada e pronta para o seu primeiro clone!*
 
-> **Nota de Rede:** O SPIK roda internamente na porta `8000`, mas para não dar conflito com outras aplicações que você tenha (como o próprio OpenWebUI), o `docker-compose.yml` mapeia tudo com segurança para a porta **7512** na sua máquina.
-
 ---
 
 ## 🧩 Como Usar no OpenWebUI (Chatbot)

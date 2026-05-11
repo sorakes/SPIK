@@ -1,0 +1,28 @@
+services:
+  spik:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spik-all-in-one
+    ports:
+      - "7512:8000"
+    volumes:
+      - ./data:/app/data
+      - omnivoice_models:/app/omnivoice_data
+    environment:
+      #Portas internas, não interferem em nada
+      - REDIS_URL=redis://localhost:6379/0
+      - OMNIVOICE_URL=http://localhost:8880
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu ]
+    restart: unless-stopped
+    shm_size: '8gb'
+
+volumes:
+  omnivoice_models:

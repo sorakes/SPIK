@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+celery
+redis
+python-multipart
+pydub
+sqlalchemy
+pydantic
+requests
+

@@ -1,0 +1,10 @@
+{
+  "current_task": "OpenWebUI TTS Integration Voice vs Model",
+  "selected_option": "Option 2 (Escalável)",
+  "milestone": "Milestone 3: Validação, Logs de Build e Auditoria (Artifacts)",
+  "status": "Todos os marcos concluídos com sucesso",
+  "target_files": [
+    "backend/app/main.py"
+  ],
+  "current_step": "Concluído"
+}

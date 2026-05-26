@@ -119,6 +119,32 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 import asyncio
 
+@app.get("/v1/audio/voices")
+def get_openai_compatible_voices():
+    voices = get_voices()
+    return {"voices": [v["id"] for v in voices]}
+
+@app.get("/v1/voices")
+def get_openai_compatible_voices_alt():
+    voices = get_voices()
+    return {"voices": [v["id"] for v in voices]}
+
+@app.get("/v1/models")
+def get_openai_compatible_models():
+    models = [
+        {"id": "tts-1", "object": "model", "created": 1699053241, "owned_by": "system"},
+        {"id": "tts-1-hd", "object": "model", "created": 1699053241, "owned_by": "system"}
+    ]
+    voices = get_voices()
+    for v in voices:
+        models.append({
+            "id": v["id"],
+            "object": "model",
+            "created": 1699053241,
+            "owned_by": "system"
+        })
+    return {"object": "list", "data": models}
+
 @app.post("/v1/audio/speech")
 async def openai_tts(request: Request):
     try:
@@ -127,11 +153,18 @@ async def openai_tts(request: Request):
         body = {}
     
     text = body.get("input", "")
-    # O OpenWebUI manda o clone no campo 'model'
-    voice_id = body.get("model", "")
-    if not voice_id or voice_id.startswith("tts-"):
-        # Se vier tts-1, tenta pegar da voz
-        voice_id = body.get("voice", "")
+    model = body.get("model", "")
+    voice = body.get("voice", "")
+    
+    openai_voices = {"alloy", "echo", "fable", "onyx", "nova", "shimmer"}
+    
+    voice_id = ""
+    if voice and voice not in openai_voices:
+        voice_id = voice
+    elif model and not model.startswith("tts-"):
+        voice_id = model
+    else:
+        voice_id = voice or model
         
     if not text or not voice_id:
         return JSONResponse({"error": "Missing input or model/voice"}, status_code=400)

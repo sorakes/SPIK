@@ -42,8 +42,8 @@ O SPIK foi projetado para alimentar perfeitamente as vozes dos seus agentes de I
    - **Motor de Texto para Fala**: Selecione `Custom TTS` (ou `OpenAI`).
    - **URL Base da API**: Cole `http://host.docker.internal:7512/v1` *(isso garante que o OpenWebUI, caso esteja via Docker, ache o SPIK na sua rede host)*.
    - **Chave da API**: Cole `sk-spik-12345`.
-   - **Voz TTS**: Selecione o **ID do Clone** no menu (o SPIK agora lista todas as suas vozes dinamicamente).
-   - **Modelo TTS**: Selecione `tts-1` (ou mantenha o ID do clone para compatibilidade legado).
+   - **Voz TTS**: Selecione ou insira o **ID do Clone** (ex: `clone_0817...`). O SPIK agora lista as vozes clonadas dinamicamente, permitindo sua seleção direta neste campo.
+   - **Modelo TTS**: Preencha com o modelo padrão (ex: `tts-1` ou `tts-1-hd`). Não é mais necessário colar o ID do clone aqui.
 
 > As requisições que o OpenWebUI enviar para o SPIK vão aparecer em tempo real lá na **Jobs Queue** da sua interface web do SPIK sob a etiqueta vermelha de **API_TTS**.
 

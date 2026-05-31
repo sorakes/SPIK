@@ -38,7 +38,7 @@ def cleanup_old_files():
     for directory in ["/app/data/outputs", "/app/data/uploads"]:
         if os.path.exists(directory):
             for f in glob.glob(f"{directory}/*"):
-                if os.path.isfile(f) and "cut_" in f or "preview_" in f or "tts_" in f:
+                if os.path.isfile(f) and ("preview_" in f or "tts_" in f):
                     if os.stat(f).st_mtime < now - 7200:
                         try: os.remove(f)
                         except: pass

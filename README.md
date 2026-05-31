@@ -1,61 +1,61 @@
 # 🎙️ SPIK Voice Platform
 
-**Otimizado para Clonagem de Voz Rápida e Integração via API (Padrão OpenAI)**
+**Optimized for Fast Voice Cloning and API Integration (OpenAI Standard)**
 
-O SPIK é uma plataforma de síntese e clonagem de voz "All-in-One", encapsulada em um único container Docker. Ele traz a inteligência do OmniVoice com um painel de gerenciamento elegante para você gerar dezenas de clones e integrá-los perfeitamente com seu ecossistema (como o OpenWebUI), mantendo auditoria completa sem sobrecarregar seu disco rígido.
-
----
-
-## 🚀 Recursos e Vantagens
-
-- **Single-Container Architecture**: O OmniVoice, a fila de processamento (Celery/Redis), a API e o painel de interface (React) sobem num estalar de dedos, juntos num mesmo ambiente seguro.
-- **Clonagem Zero-Shot**: Clona qualquer voz com menos de 10 segundos de áudio diretamente pela interface.
-- **Auditoria "Jobs Queue"**: Histórico técnico e fila de requisições que permite ver tudo o que está sendo processado "por baixo dos panos" pela API (sem engordar o disco com arquivos de áudio temporários).
-- **Compatibilidade Nativa com OpenAI**: Uma rota `/v1/audio/speech` que simula a API da OpenAI. Seus clones viram modelos nativos do OpenWebUI instantaneamente!
-- **Interface Clean & Dark**: Um painel Glassmorphism premium que facilita a manipulação do estúdio TTS e do seu Banco de Vozes.
+SPIK is an "All-in-One" voice synthesis and cloning platform, encapsulated in a single Docker container. It brings the intelligence of OmniVoice with an elegant management panel for you to generate dozens of clones and integrate them perfectly with your ecosystem (like OpenWebUI), maintaining complete auditing without overloading your hard drive.
 
 ---
 
-## 🛠️ Como Iniciar (Deploy)
+## 🚀 Features and Advantages
 
-Você não precisa instalar dependências no seu computador. Tudo de que você precisa é do Docker instalado.
+- **Single-Container Architecture**: OmniVoice, the processing queue (Celery/Redis), the API, and the interface panel (React) spin up in a snap, together in the same secure environment.
+- **Zero-Shot Cloning**: Clone any voice with less than 10 seconds of audio directly through the interface.
+- **"Jobs Queue" Audit**: Technical history and request queue that allows you to see everything being processed "under the hood" by the API (without bloating the disk with temporary audio files).
+- **Native OpenAI Compatibility**: A `/v1/audio/speech` route that simulates the OpenAI API. Your clones instantly become native models in OpenWebUI!
+- **Clean & Dark Interface**: A premium Glassmorphism panel that makes it easy to manipulate the TTS studio and your Voice Bank.
 
-1. **Suba o container** usando o Docker Compose na pasta raiz:
+---
+
+## 🛠️ How to Start (Deploy)
+
+You don't need to install dependencies on your computer. All you need is Docker installed.
+
+1. **Spin up the container** using Docker Compose in the root folder:
    ```bash
    docker-compose up --build -d
    ```
 
-2. **Acesse a interface web**:
-   - Abra o navegador e vá em: `http://localhost:7512`
-   - *A interface estará zerada e pronta para o seu primeiro clone!*
+2. **Access the web interface**:
+   - Open your browser and go to: `http://localhost:7512`
+   - *The interface will be empty and ready for your first clone!*
 
 ---
 
-## 🧩 Como Usar no OpenWebUI (Chatbot)
+## 🧩 How to Use in OpenWebUI (Chatbot)
 
-O SPIK foi projetado para alimentar perfeitamente as vozes dos seus agentes de IA no **OpenWebUI**. Para integrar:
+SPIK was designed to perfectly power the voices of your AI agents in **OpenWebUI**. To integrate:
 
-1. Acesse o painel web do SPIK em `http://localhost:7512` e crie a clonagem da voz que deseja.
-2. Na aba **Voice Bank (Banco de Vozes)**, copie o ID exclusivo do clone gerado (ex: `clone_0817...`).
-3. Abra o **OpenWebUI** e vá em: **Admin Panel / Configurações → Áudio (Audio)**.
-4. Preencha os campos exatamente assim:
-   - **Motor de Texto para Fala**: Selecione `Custom TTS` (ou `OpenAI`).
-   - **URL Base da API**: Cole `http://host.docker.internal:7512/v1` *(isso garante que o OpenWebUI, caso esteja via Docker, ache o SPIK na sua rede host)*.
-   - **Chave da API**: Cole `sk-spik-12345`.
-   - **Voz TTS**: Selecione ou insira o **ID do Clone** (ex: `clone_0817...`). O SPIK agora lista as vozes clonadas dinamicamente, permitindo sua seleção direta neste campo.
-   - **Modelo TTS**: Preencha com o modelo padrão (ex: `tts-1` ou `tts-1-hd`). Não é mais necessário colar o ID do clone aqui.
+1. Access the SPIK web panel at `http://localhost:7512` and create the voice clone you want.
+2. In the **Voice Bank** tab, copy the unique ID of the generated clone (e.g., `clone_0817...`).
+3. Open **OpenWebUI** and go to: **Admin Panel / Settings → Audio**.
+4. Fill in the fields exactly like this:
+   - **Text-to-Speech Engine**: Select `Custom TTS` (or `OpenAI`).
+   - **API Base URL**: Paste `http://host.docker.internal:7512/v1` *(this ensures that OpenWebUI, if running via Docker, finds SPIK on your host network)*.
+   - **API Key**: Paste `sk-spik-12345`.
+   - **TTS Voice**: Select or enter the **Clone ID** (e.g., `clone_0817...`). SPIK now lists cloned voices dynamically, allowing direct selection in this field.
+   - **TTS Model**: Fill with the default model (e.g., `tts-1` or `tts-1-hd`). It is no longer necessary to paste the clone ID here.
 
-> As requisições que o OpenWebUI enviar para o SPIK vão aparecer em tempo real lá na **Jobs Queue** da sua interface web do SPIK sob a etiqueta vermelha de **API_TTS**.
-
----
-
-## 📁 Estrutura do Repositório
-
-- `/frontend/` – Código React do Painel Glassmorphism. O build é gerado dentro do container.
-- `/backend/` – O coração Python (FastAPI + Celery) que lida com o OmniVoice.
-- `/data/` – Volumes locais (Banco de Dados SQLite, Uploads, Outputs). Já devidamente configurado no `.gitignore`.
-- `Dockerfile` e `supervisord-mega.conf` – A infraestrutura que une a mágica toda em um container só.
+> Requests that OpenWebUI sends to SPIK will appear in real-time in the **Jobs Queue** of your SPIK web interface under the red **API_TTS** tag.
 
 ---
 
-✨ *Desenvolvido para ambientes de alta performance e consumo leve.*
+## 📁 Repository Structure
+
+- `/frontend/` – React code for the Glassmorphism Panel. The build is generated inside the container.
+- `/backend/` – The Python heart (FastAPI + Celery) that handles OmniVoice.
+- `/data/` – Local volumes (SQLite Database, Uploads, Outputs). Already properly configured in `.gitignore`.
+- `Dockerfile` and `supervisord-mega.conf` – The infrastructure that ties all the magic together in a single container.
+
+---
+
+✨ *Developed for high-performance and lightweight environments.*
